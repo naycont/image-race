@@ -1,6 +1,9 @@
+<script lang="ts" setup>
+import ActionButton from '@/components/ui/ActionButton.vue'
+</script>
 <template>
   <div>
-    <div class="d-flex justify-center align-start">
+    <div class="d-flex justify-center text-center text-h2 my-4">
       <span class="text-h4">
         Ayuda a los vendedores de
         <span class="text-primary">Alegra</span>
@@ -34,7 +37,7 @@
 
     <div class="d-flex justify-center align-center flex-column mt-4">
       <span class="my-4 text-accent text-h5">Que comience la carrera!</span>
-      <v-btn color="primary" flat size="large">Empezar</v-btn>
+      <ActionButton text="Empezar" />
     </div>
   </div>
 </template>
