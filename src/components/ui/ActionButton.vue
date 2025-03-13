@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-  <v-btn class="action-button" color="primary" flat size="large" rounded="lg" v-bind="$attrs">
+  <v-btn class="action-button" color="primary" flat size="large" v-bind="$attrs">
     {{ text }}
   </v-btn>
 </template>
