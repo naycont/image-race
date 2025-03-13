@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 import ActionButton from '@/components/ui/ActionButton.vue'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 const searchString = ref<string>('')
 
-import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+const emit = defineEmits(['searchImage'])
 
 // responsiveness added: get breakpoints to disply action button on the right
 const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -12,7 +13,7 @@ const isSmallerDevice = breakpoints.smaller('md')
 
 const onSearchImage = (event: SubmitEvent) => {
   event.preventDefault()
-  console.log('seraching image....', searchString.value)
+  emit('searchImage', searchString.value)
 }
 </script>
 
