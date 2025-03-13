@@ -6,9 +6,9 @@ import TheFooter from '@/components/TheFooter.vue'
 
 <template>
   <v-app>
-    <v-main>
-      <TheHeading />
-      <v-container fluid class="h-100">
+    <TheHeading />
+    <v-main style="background-color: #f4f5fb">
+      <v-container class="h-100" style="background-color: #fff">
         <RouterView />
       </v-container>
     </v-main>
