@@ -7,8 +7,8 @@ import TheFooter from '@/components/TheFooter.vue'
 <template>
   <v-app>
     <TheHeading />
-    <v-main style="background-color: #f4f5fb">
-      <v-container class="h-100" style="background-color: #fff">
+    <v-main>
+      <v-container fluid class="h-100 main-container">
         <RouterView />
       </v-container>
     </v-main>

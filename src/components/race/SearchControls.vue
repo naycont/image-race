@@ -29,7 +29,9 @@ const onSearchImage = (event: SubmitEvent) => {
         rounded
       ></v-text-field>
 
-      <div :class="['d-flex', 'ga-4', { 'justify-space-between': isSmallerDevice }]">
+      <div
+        :class="['d-flex', 'ga-4', 'align-center', { 'justify-space-between': isSmallerDevice }]"
+      >
         <v-btn variant="outlined" color="primary" density="default" icon="replay"></v-btn>
         <ActionButton type="submit" @click="onSearchImage" text="Buscar"></ActionButton>
       </div>

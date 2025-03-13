@@ -14,8 +14,16 @@ const onSearchImage = async (searchString: string) => {
     /*const response = await imageService.search({
       query: searchString
     }) */
+
     const response = imageList
 
+    response.pop()
+    response.pop()
+    response.pop()
+    response.pop()
+    response.pop()
+    response.pop()
+    response.pop()
     if (response?.length) {
       images.value = response
     }
@@ -27,14 +35,14 @@ const onSearchImage = async (searchString: string) => {
 }
 </script>
 <template>
-  <v-container class="h-100">
-    <v-row justify="center">
+  <v-container class="view-layout">
+    <v-row justify="center" no-gutters>
       <v-col cols="12" sm="12" md="12" lg="10">
         <SearchControls @searchImage="onSearchImage" />
       </v-col>
     </v-row>
 
-    <v-row justify="center" class="mt-4">
+    <v-row justify="center" class="mt-4" no-gutters>
       <v-col cols="12" sm="12" md="12" lg="10">
         <Ranking />
       </v-col>
