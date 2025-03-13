@@ -4,6 +4,8 @@ const currentYear = new Date().getFullYear()
 
 <template>
   <v-footer absolute app>
-    <div class="the-footer pa-4">naycont@gmail.com {{ currentYear }}</div>
+    <div class="the-footer pa-4">
+      <span class="font-weight-light">naycont@gmail.com {{ currentYear }}</span>
+    </div>
   </v-footer>
 </template>
