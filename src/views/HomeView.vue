@@ -1,5 +1,12 @@
 <script lang="ts" setup>
+import { useRouter } from 'vue-router'
 import ActionButton from '@/components/ui/ActionButton.vue'
+
+const router = useRouter()
+
+const redirectToSearchView = () => {
+  router.push({ name: 'race' })
+}
 </script>
 <template>
   <div>
@@ -37,7 +44,7 @@ import ActionButton from '@/components/ui/ActionButton.vue'
 
     <div class="d-flex justify-center align-center flex-column mt-6">
       <span class="my-4 text-accent text-h5">Que comience la carrera!</span>
-      <ActionButton text="Empezar" />
+      <ActionButton text="Empezar" @click="redirectToSearchView" />
     </div>
   </div>
 </template>
