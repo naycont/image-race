@@ -8,7 +8,7 @@ import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 // responsiveness added: get breakpoints to disply action button on the right
 const breakpoints = useBreakpoints(breakpointsTailwind)
-const isSmallerThanMD = breakpoints.smaller('md')
+const isSmallerDevice = breakpoints.smaller('md')
 
 const onSearchImage = (event: SubmitEvent) => {
   event.preventDefault()
@@ -18,8 +18,8 @@ const onSearchImage = (event: SubmitEvent) => {
 
 <template>
   <v-form>
-    <v-row justify="center" class="align-center mt-4">
-      <v-col cols="12" sm="10" md="8" lg="6">
+    <v-row justify="center" :class="['align-center', { 'mt-2': !isSmallerDevice }]">
+      <v-col cols="12" sm="12" md="9" lg="8" class="py-0">
         <v-text-field
           v-model="searchString"
           variant="outlined"
@@ -30,8 +30,16 @@ const onSearchImage = (event: SubmitEvent) => {
         ></v-text-field>
       </v-col>
 
-      <v-col cols="12" sm="2" md="2" lg="2">
-        <div :class="['d-flex', { 'justify-end': isSmallerThanMD }]">
+      <v-col cols="12" sm="12" md="3" lg="2">
+        <div
+          :class="[
+            'd-flex',
+            'ga-4',
+            { 'justify-end': !isSmallerDevice },
+            { 'justify-space-between': isSmallerDevice }
+          ]"
+        >
+          <v-btn variant="outlined" color="primary" density="default" icon="replay"></v-btn>
           <ActionButton type="submit" @click="onSearchImage" text="Buscar"></ActionButton>
         </div>
       </v-col>

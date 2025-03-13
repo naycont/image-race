@@ -2,13 +2,9 @@
 import Progress from '@/components/ranking/Progress.vue'
 </script>
 <template>
-  <div class="mt-4">
-    <v-row justify="center" class="align-center mt-4">
-      <v-col cols="12" sm="12" md="10" lg="8">
-        <v-row justify="center">
-          <Progress competitorName="fireArt studio" />
-        </v-row>
-      </v-col>
-    </v-row>
-  </div>
+  <v-row justify="center">
+    <Progress competitorName="fireArt studio" color="#FFD700" score="6" />
+    <Progress competitorName="ninja pics" color="#8A9697" score="12" />
+    <Progress competitorName="framer" color="#CD7F32" score="0" />
+  </v-row>
 </template>
