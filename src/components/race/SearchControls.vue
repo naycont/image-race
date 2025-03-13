@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { ref, defineEmits } from 'vue'
-import ActionButton from '@/components/ui/ActionButton.vue'
+import ActionButton from '@/components/global/ActionButton.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 const searchString = ref<string>('')
 
-const emit = defineEmits(['searchImage'])
+const emit = defineEmits(['searchImage', 'restart'])
 
 // responsiveness added: get breakpoints to disply action button on the right
 const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -32,7 +32,13 @@ const onSearchImage = (event: SubmitEvent) => {
       <div
         :class="['d-flex', 'ga-4', 'align-center', { 'justify-space-between': isSmallerDevice }]"
       >
-        <v-btn variant="outlined" color="primary" density="default" icon="replay"></v-btn>
+        <v-btn
+          variant="outlined"
+          color="primary"
+          density="default"
+          icon="replay"
+          @click="emit('restart')"
+        ></v-btn>
         <ActionButton type="submit" @click="onSearchImage" text="Buscar"></ActionButton>
       </div>
     </div>
