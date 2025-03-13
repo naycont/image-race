@@ -9,7 +9,7 @@ const redirectToSearchView = () => {
 }
 </script>
 <template>
-  <div>
+  <div class="view-layout">
     <div class="d-flex justify-center align-center banner">
       <span class="text-center text-h4">
         Ayuda a los vendedores de

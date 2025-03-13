@@ -17,13 +17,6 @@ const onSearchImage = async (searchString: string) => {
 
     const response = imageList
 
-    response.pop()
-    response.pop()
-    response.pop()
-    response.pop()
-    response.pop()
-    response.pop()
-    response.pop()
     if (response?.length) {
       images.value = response
     }
@@ -35,7 +28,7 @@ const onSearchImage = async (searchString: string) => {
 }
 </script>
 <template>
-  <v-container class="view-layout">
+  <div class="view-layout">
     <v-row justify="center" no-gutters>
       <v-col cols="12" sm="12" md="12" lg="10">
         <SearchControls @searchImage="onSearchImage" />
@@ -49,5 +42,5 @@ const onSearchImage = async (searchString: string) => {
     </v-row>
 
     <ImagesList class="mt-6" :items="images" />
-  </v-container>
+  </div>
 </template>
