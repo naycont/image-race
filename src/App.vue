@@ -8,7 +8,7 @@ import TheFooter from '@/components/TheFooter.vue'
   <v-app>
     <v-main>
       <TheHeading />
-      <v-container class="h-100">
+      <v-container fluid class="h-100">
         <RouterView />
       </v-container>
     </v-main>

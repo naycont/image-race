@@ -18,31 +18,20 @@ const onSearchImage = (event: SubmitEvent) => {
 
 <template>
   <v-form>
-    <v-row justify="center" :class="['align-center', { 'mt-2': !isSmallerDevice }]">
-      <v-col cols="12" sm="12" md="9" lg="8" class="py-0">
-        <v-text-field
-          v-model="searchString"
-          variant="outlined"
-          label="Buscar Imagen"
-          bg-color="#fff"
-          hide-details
-          rounded
-        ></v-text-field>
-      </v-col>
+    <div :class="['d-flex', 'ga-4', { 'flex-column': isSmallerDevice }]">
+      <v-text-field
+        v-model="searchString"
+        variant="outlined"
+        label="Buscar Imagen"
+        bg-color="#fff"
+        hide-details
+        rounded
+      ></v-text-field>
 
-      <v-col cols="12" sm="12" md="3" lg="2">
-        <div
-          :class="[
-            'd-flex',
-            'ga-4',
-            { 'justify-end': !isSmallerDevice },
-            { 'justify-space-between': isSmallerDevice }
-          ]"
-        >
-          <v-btn variant="outlined" color="primary" density="default" icon="replay"></v-btn>
-          <ActionButton type="submit" @click="onSearchImage" text="Buscar"></ActionButton>
-        </div>
-      </v-col>
-    </v-row>
+      <div :class="['d-flex', 'ga-4', { 'justify-space-between': isSmallerDevice }]">
+        <v-btn variant="outlined" color="primary" density="default" icon="replay"></v-btn>
+        <ActionButton type="submit" @click="onSearchImage" text="Buscar"></ActionButton>
+      </div>
+    </div>
   </v-form>
 </template>

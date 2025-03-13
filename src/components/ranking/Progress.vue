@@ -22,7 +22,7 @@ const props = defineProps({
 const pointsLeft = computed(() => props.goal - props.score)
 </script>
 <template>
-  <div class="d-flex flex-column w-100 px-2 mt-1">
+  <div class="d-flex flex-column w-100 px-2 mb-1">
     <div class="d-flex">
       <v-icon icon="account_circle" :color="color"></v-icon>
       <span class="ml-1">{{ competitorName }}</span>
