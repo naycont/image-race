@@ -19,7 +19,15 @@ const props = defineProps({
   }
 })
 
-const pointsLeft = computed(() => props.goal - props.score)
+const currentPercent = computed(() => {
+  return (props.score * 100) / props.goal
+})
+
+const pointsLeft = computed(() => {
+  const diff = props.goal - props.score
+  const result = diff < 0 ? 0 : diff
+  return result
+})
 </script>
 <template>
   <div class="d-flex flex-column w-100 px-2 mb-1">
@@ -28,8 +36,8 @@ const pointsLeft = computed(() => props.goal - props.score)
       <span class="ml-1">{{ competitorName }}</span>
     </div>
 
-    <v-progress-linear :color="color" height="16" :model-value="score" striped>
-      <template v-slot:default="{ value }">
+    <v-progress-linear :color="color" height="16" :model-value="currentPercent" striped>
+      <template v-slot:default>
         <div class="d-flex justify-space-between w-100">
           <span>{{ score }} pts</span>
           <span class="font-weight-thin">faltan {{ pointsLeft }} pts</span>

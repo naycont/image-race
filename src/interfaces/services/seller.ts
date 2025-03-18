@@ -4,4 +4,5 @@ export default interface Seller {
   identification: string
   observations: string
   status: string
+  score?: number
 }

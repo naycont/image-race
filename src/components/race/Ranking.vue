@@ -1,30 +1,27 @@
 <script lang="ts" setup>
 import Progress from '@/components/ranking/Progress.vue'
-import sellerService from '@/services/seller'
-import type Seller from '@/interfaces/services/Seller'
-import { ref } from 'vue'
+import { useScoreStore } from '@/stores/score'
+import { computed, onMounted } from 'vue'
+import { RANKING_COLORS } from '@/utils/constants'
 
-const sellers = ref<Seller[]>([])
+const scoreStore = useScoreStore()
 
-const getSellers = async () => {
-  try {
-    const data: Seller[] = await sellerService.get()
-    sellers.value = data.filter((seller) => seller.status === 'active')
-  } catch (error) {
-    console.error(error)
-  }
-}
+const score = computed(() => scoreStore.score)
 
-getSellers()
+const getColor = (index: number) => (RANKING_COLORS[index] ? RANKING_COLORS[index] : 'gray')
+
+onMounted(async () => {
+  scoreStore.initScore()
+})
 </script>
 <template>
   <div>
     <Progress
-      v-for="seller in sellers"
-      :key="`seller-${seller.id}`"
-      :competitorName="seller.name"
-      color="#FFD700"
-      :score="0"
+      v-for="(item, index) in score"
+      :key="`seller-${item.sellerId}`"
+      :competitorName="item.sellerName"
+      :color="getColor(index)"
+      :score="item.score"
     />
   </div>
 </template>

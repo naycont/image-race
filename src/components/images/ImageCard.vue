@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
+import { useScoreStore } from '@/stores/score'
+
+const scoreStore = useScoreStore()
+
 const props = defineProps({
   url: {
     type: String,
@@ -16,7 +20,7 @@ const props = defineProps({
 })
 
 const onLiked = () => {
-  console.log('onLiked', props.sellerId)
+  scoreStore.setScore(props.sellerId)
 }
 </script>
 <template>

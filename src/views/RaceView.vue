@@ -7,10 +7,12 @@ import type Image from '@/interfaces/Image'
 import { ref, watch, computed } from 'vue'
 import imageList from '@/services/mockData/imagesList.json'
 import { useDialogStore } from '@/stores/dialog'
+import { useScoreStore } from '@/stores/score'
 import sellerService from '@/services/seller'
 import type Seller from '@/interfaces/services/Seller'
 
 const dialogStore = useDialogStore()
+const scoreStore = useScoreStore()
 
 const images = ref<Image[]>([])
 
@@ -18,21 +20,20 @@ const dialogConfiguration = computed(() => dialogStore.dialog)
 
 const onSearchImage = async (searchString: string) => {
   try {
-    const sellers: Seller[] = await sellerService.get()
-    const activeSellers = sellers.filter((seller) => seller.status === 'active')
+    const scoreItems = score.value
 
     /*const response = await imageService.search({
       query: searchString,
-      per_page: activeSellers.length
+      per_page: scoreItems.length
     }) */
-    const response = imageList.slice(0, activeSellers.length)
+    const response = imageList.slice(0, scoreItems.length)
     if (response?.length) {
       images.value = response.map((image, index) => {
-        const seller = activeSellers[index]
+        const seller = scoreItems[index]
         return {
           ...image,
-          sellerId: seller.identification,
-          sellerName: seller.name
+          sellerId: seller.sellerId,
+          sellerName: seller.sellerName
         }
       })
     }
@@ -53,10 +54,12 @@ const onRestart = () => {
   })
 }
 
+const score = computed(() => scoreStore.score)
+
 watch(dialogConfiguration, (nextDialogConfiguration) => {
   if (nextDialogConfiguration.confirmed) {
-    console.log('restart game')
     images.value = []
+    scoreStore.initScore()
   }
 })
 </script>
