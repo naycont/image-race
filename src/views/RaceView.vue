@@ -2,7 +2,7 @@
 import SearchControls from '@/components/race/SearchControls.vue'
 import Ranking from '@/components/race/Ranking.vue'
 import ImagesList from '@/components/images/ImagesList.vue'
-import imageService from '@/services/imageService'
+import imageService from '@/services/image'
 import type Image from '@/interfaces/Image'
 import { ref, watch, computed } from 'vue'
 import imageList from '@/services/mockData/imagesList.json'

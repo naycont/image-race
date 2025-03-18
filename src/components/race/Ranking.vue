@@ -1,10 +1,33 @@
 <script lang="ts" setup>
 import Progress from '@/components/ranking/Progress.vue'
+import sellerService from '@/services/seller'
+import type Seller from '@/interfaces/services/Seller'
+import { ref } from 'vue'
+
+const sellers = ref<Seller[]>([])
+
+const getSellers = async () => {
+  try {
+    const response = await sellerService.get()
+
+    const data: Seller[] = response?.data?.length ? response.data : []
+
+    sellers.value = data.filter((seller) => seller.status === 'active')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+getSellers()
 </script>
 <template>
   <div>
-    <Progress competitorName="fireArt studio" color="#FFD700" :score="0" />
-    <Progress competitorName="ninja pics" color="#8A9697" :score="0" />
-    <Progress competitorName="framer" color="#CD7F32" :score="0" />
+    <Progress
+      v-for="seller in sellers"
+      :key="`seller-${seller.id}`"
+      :competitorName="seller.name"
+      color="#FFD700"
+      :score="0"
+    />
   </div>
 </template>
