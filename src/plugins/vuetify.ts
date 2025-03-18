@@ -26,7 +26,10 @@ const vuetify = createVuetify({
           primary: '#30ABA9',
           secondary: '#334155',
           accent: colors.orange.darken1,
-          background: '#f4f5fb'
+          background: '#f4f5fb',
+          success: '#28a745',
+          warning: '#FBC107',
+          info: '#17a2b8'
         }
       }
     }

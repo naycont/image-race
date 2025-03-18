@@ -3,35 +3,46 @@ import { ref } from 'vue'
 import type Dialog from '@/interfaces/global/Dialog'
 
 export const useDialogStore = defineStore('dialog', () => {
-  const dialog = ref<Dialog>({
+  const defaultDialogConfiguration = {
     isActive: false,
     title: '',
-    message: ''
-  })
+    message: '',
+    closeButton: 'Cancelar',
+    confirmed: false
+  }
+
+  const dialog = ref<Dialog>(defaultDialogConfiguration)
 
   const setDialog = (configuration: Dialog) => {
     dialog.value = {
       isActive: configuration.isActive,
       title: configuration.title,
-      message: configuration.message
+      message: configuration.message,
+      closeButton: configuration.closeButton,
+      confirmed: configuration.confirmed
     }
   }
 
-  const activeDialog = ({ title, message, isActive = true }: Dialog) => {
+  const activeDialog = (dialog: Dialog) => {
     setDialog({
-      isActive: isActive,
-      title: title,
-      message: message
+      ...defaultDialogConfiguration,
+      isActive: true,
+      title: dialog.title,
+      message: dialog.message,
+      closeButton: dialog.closeButton
     })
   }
 
   const closeDialog = () => {
+    setDialog(defaultDialogConfiguration)
+  }
+
+  const confirmDialog = () => {
     setDialog({
-      isActive: false,
-      title: '',
-      message: ''
+      ...defaultDialogConfiguration,
+      confirmed: true
     })
   }
 
-  return { dialog, activeDialog, closeDialog }
+  return { dialog, activeDialog, closeDialog, confirmDialog }
 })

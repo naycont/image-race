@@ -4,13 +4,15 @@ import Ranking from '@/components/race/Ranking.vue'
 import ImagesList from '@/components/images/ImagesList.vue'
 import imageService from '@/services/imageService'
 import type Image from '@/interfaces/Image'
-import { ref } from 'vue'
+import { ref, watch, computed } from 'vue'
 import imageList from '@/services/mockData/imagesList.json'
 import { useDialogStore } from '@/stores/dialog'
 
 const dialogStore = useDialogStore()
 
 const images = ref<Image[]>([])
+
+const dialogConfiguration = computed(() => dialogStore.dialog)
 
 const onSearchImage = async (searchString: string) => {
   console.log('searhching image...', searchString)
@@ -32,12 +34,20 @@ const onSearchImage = async (searchString: string) => {
 }
 
 const onRestart = () => {
-  console.log('esta seguro?')
+  const dialog = dialogStore.dialog
+
   dialogStore.activeDialog({
+    ...dialog,
     title: 'Confirmación',
-    message: '¿Está seguro de que desea reiniciar la partida?, esto perderá sus progreso'
+    message: '¿Está seguro de que desea reiniciar la partida?, al confirmar perderá su progreso'
   })
 }
+
+watch(dialogConfiguration, (nextDialogConfiguration) => {
+  if (nextDialogConfiguration.confirmed) {
+    console.log('restart game')
+  }
+})
 </script>
 <template>
   <div class="view-layout">
