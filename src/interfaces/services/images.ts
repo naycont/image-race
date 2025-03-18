@@ -24,6 +24,7 @@ interface Photo {
 }
 export interface QueryParams {
   query: string
+  per_page: number
 }
 
 export interface ImagesResponse {

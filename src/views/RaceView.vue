@@ -7,6 +7,8 @@ import type Image from '@/interfaces/Image'
 import { ref, watch, computed } from 'vue'
 import imageList from '@/services/mockData/imagesList.json'
 import { useDialogStore } from '@/stores/dialog'
+import sellerService from '@/services/seller'
+import type Seller from '@/interfaces/services/Seller'
 
 const dialogStore = useDialogStore()
 
@@ -15,16 +17,24 @@ const images = ref<Image[]>([])
 const dialogConfiguration = computed(() => dialogStore.dialog)
 
 const onSearchImage = async (searchString: string) => {
-  console.log('searhching image...', searchString)
   try {
+    const sellers: Seller[] = await sellerService.get()
+    const activeSellers = sellers.filter((seller) => seller.status === 'active')
+
     /*const response = await imageService.search({
-      query: searchString
+      query: searchString,
+      per_page: activeSellers.length
     }) */
-
-    const response = imageList
-
+    const response = imageList.slice(0, activeSellers.length)
     if (response?.length) {
-      images.value = response
+      images.value = response.map((image, index) => {
+        const seller = activeSellers[index]
+        return {
+          ...image,
+          sellerId: seller.identification,
+          sellerName: seller.name
+        }
+      })
     }
 
     console.log(response)
@@ -39,13 +49,14 @@ const onRestart = () => {
   dialogStore.activeDialog({
     ...dialog,
     title: 'Confirmación',
-    message: '¿Está seguro de que desea reiniciar la partida?, al confirmar perderá su progreso'
+    message: '¿Está seguro de que desea reiniciar los puntos?, al confirmar perderá tu progreso'
   })
 }
 
 watch(dialogConfiguration, (nextDialogConfiguration) => {
   if (nextDialogConfiguration.confirmed) {
     console.log('restart game')
+    images.value = []
   }
 })
 </script>

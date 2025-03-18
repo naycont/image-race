@@ -13,7 +13,7 @@ defineProps({
 <template>
   <v-row>
     <v-col cols="12" sm="6" md="6" lg="3" v-for="item in items" :key="item.id">
-      <ImageCard :url="item.url" />
+      <ImageCard :url="item.url" :sellerName="item.sellerName" :sellerId="item.sellerId" />
     </v-col>
   </v-row>
 </template>

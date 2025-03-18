@@ -8,10 +8,7 @@ const sellers = ref<Seller[]>([])
 
 const getSellers = async () => {
   try {
-    const response = await sellerService.get()
-
-    const data: Seller[] = response?.data?.length ? response.data : []
-
+    const data: Seller[] = await sellerService.get()
     sellers.value = data.filter((seller) => seller.status === 'active')
   } catch (error) {
     console.error(error)

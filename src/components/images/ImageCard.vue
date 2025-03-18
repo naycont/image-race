@@ -1,11 +1,23 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
-defineProps({
+const props = defineProps({
   url: {
+    type: String,
+    default: ''
+  },
+  sellerName: {
+    type: String,
+    default: ''
+  },
+  sellerId: {
     type: String,
     default: ''
   }
 })
+
+const onLiked = () => {
+  console.log('onLiked', props.sellerId)
+}
 </script>
 <template>
   <v-card flat border="sm">
@@ -15,10 +27,10 @@ defineProps({
       <div class="d-flex justify-space-between w-100 align-center">
         <span>
           <v-icon icon="account_circle"></v-icon>
-          fireArt studio
+          {{ sellerName }}
         </span>
 
-        <v-btn flat color="pink" icon="favorite_border"></v-btn>
+        <v-btn flat color="pink" icon="favorite_border" @click="onLiked"></v-btn>
       </div>
     </v-card-actions>
   </v-card>

@@ -6,9 +6,9 @@ const client = createClient(API_KEY)
 
 const imageService = {
   search: async (params: QueryParams) => {
-    const { query } = params
+    const { query, per_page } = params
     try {
-      const response: ImagesResponse = await client.photos.search({ query, per_page: 10 })
+      const response: ImagesResponse = await client.photos.search({ query, per_page })
       const arrayReponse = response?.photos?.length
         ? response.photos.map(({ id, src }) => {
             return {
