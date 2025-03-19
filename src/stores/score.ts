@@ -1,24 +1,24 @@
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
 import type Seller from '@/interfaces/services/Seller'
-import type Score from '@/interfaces/score'
+import type Score from '@/interfaces/Score'
 import sellerService from '@/services/seller'
 import { STATUS, TOTAL_POINTS } from '@/utils/constants'
 
 export const useScoreStore = defineStore('score', () => {
   const score = ref<Score[]>([])
-  const hasWinner = ref<boolean>(false)
+  const winner = ref<Score | null>(null)
   const points = 3
   const totalPoints = 3 //TOTAL_POINTS
 
   const initScore = async () => {
     const data: Seller[] = await sellerService.get()
     const activeSellers = data.filter((seller) => seller.status === STATUS.active)
-    hasWinner.value = false
+    winner.value = null
 
-    score.value = activeSellers.map((seller) => {
+    score.value = activeSellers.map((seller: Seller) => {
       return {
-        sellerId: seller.identification,
+        sellerId: seller.id,
         sellerName: seller.name,
         score: 0
       }
@@ -51,9 +51,11 @@ export const useScoreStore = defineStore('score', () => {
 
   watch(score, (newScore) => {
     if (newScore.length) {
-      hasWinner.value = newScore[0].score >= totalPoints
+      if (newScore[0].score >= totalPoints) {
+        winner.value = newScore[0]
+      }
     }
   })
 
-  return { score, initScore, setScore, totalPoints, hasWinner, getFullScore }
+  return { score, initScore, setScore, totalPoints, getFullScore, winner }
 })

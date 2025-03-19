@@ -1,5 +1,5 @@
 import { createClient } from 'pexels'
-import type { QueryParams, ImagesResponse } from '@/interfaces/services/images'
+import type { QueryParams, ImagesResponse } from '@/interfaces/services/Images'
 
 const API_KEY: string = import.meta.env.VITE_IMAGES_API_KEY
 const client = createClient(API_KEY)

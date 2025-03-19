@@ -38,7 +38,7 @@ const dialogConfiguration = computed(() => dialogStore.dialog)
         <v-divider></v-divider>
 
         <v-card-text>
-          {{ dialogConfiguration.message }}
+          <slot name="content" :content="dialogConfiguration.message"></slot>
         </v-card-text>
 
         <v-card-actions>

@@ -1,8 +1,26 @@
 import type Product from '@/interfaces/Product'
+import type { InvoiceStatus } from '@/utils/constants'
 
-enum Status {
-  draft = 'draft',
-  open = 'open'
+export enum PaymentMethod {
+  'cash' = 'cash',
+  'debit-card' = 'debit-card',
+  'credit-card' = 'credit-card',
+  'service-card' = 'service-card',
+  'transfer' = 'transfer',
+  'check' = 'check',
+  'electronic-wallet' = 'electronic-wallet',
+  'electronic-money' = 'electronic-money',
+  'grocery-voucher' = 'grocery-voucher',
+  'dation-payment' = 'dation-payment',
+  'subrogation-payment' = 'subrogation-payment',
+  'allocation-payment' = 'allocation-payment',
+  'forgiveness' = 'forgiveness',
+  'compensation' = 'compensation',
+  'novation' = 'novation',
+  'misunderstanding' = 'misunderstanding',
+  'debt-remission' = 'debt-remission',
+  'prescription-or-expiration' = 'prescription-or-expiration',
+  'creditor-satisfaction' = 'creditor-satisfaction'
 }
 
 interface Stamp {
@@ -19,7 +37,7 @@ interface Payment {
   date: string
   account: { id: string }
   amount?: number
-  paymentMethod?: string
+  paymentMethod?: PaymentMethod
   annotations?: string
   observations?: string
   retentions?: { id: string; amount: number }
@@ -31,14 +49,14 @@ export default interface Invoice {
   items: Array<Product>
   dueDate: string
   date: string
-  client: { id: string }
-  seller: { id: string }
+  client: number | { id: string }
+  seller: number | { id: string }
   accountNumber?: string
   cfdiUse?: string
   stamp?: Stamp
   paymentType?: string
   regimeClient?: string
-  status?: Status
+  status?: InvoiceStatus
   payments?: Array<Payment>
   estimate?: string
   termsConditions?: string

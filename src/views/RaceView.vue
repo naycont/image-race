@@ -4,12 +4,17 @@ import Ranking from '@/components/race/Ranking.vue'
 import ImagesList from '@/components/images/ImagesList.vue'
 import NoImages from '@/components/images/NoImages.vue'
 import imageService from '@/services/image'
-import type Image from '@/interfaces/Image'
+import invoiceService from '@/services/invoice'
+import type Image from '@/interfaces/services/Image'
 import { ref, watch, computed } from 'vue'
 import imageList from '@/services/mockData/imagesList.json'
 import { useDialogStore } from '@/stores/dialog'
 import { useScoreStore } from '@/stores/score'
 import { DIALOG_TYPES } from '@/utils/constants'
+import type Invoice from '@/interfaces/services/Invoice'
+import type Score from '@/interfaces/Score'
+import type { Prize, PrizeItem } from '@/interfaces/Prize'
+import { PaymentMethod } from '@/interfaces/services/Invoice'
 
 const dialogStore = useDialogStore()
 const scoreStore = useScoreStore()
@@ -21,7 +26,7 @@ const isSearchResult = ref<boolean>(false)
 
 const dialogConfiguration = computed(() => dialogStore.dialog)
 const score = computed(() => scoreStore.score)
-const hasWinner = computed(() => scoreStore.hasWinner)
+const winner = computed(() => scoreStore.winner)
 const restartBtnDisabled = computed(() => scoreStore.getFullScore() === 0)
 const noSearchResults = computed(() =>
   Boolean(isSearchResult.value && images.value.length === 0 && !isLoading.value)
@@ -74,15 +79,17 @@ const onClearSearch = () => {
   isSearchResult.value = false
 }
 
-const gameOver = () => {
+const gameOver = async (winner: Score) => {
   images.value = []
   searchControlsKey.value = new Date().getTime()
-  const winner = score.value[0]
 
   dialogStore.activeDialog({
     ...dialogConfiguration.value,
-    title: 'Ganador!',
-    message: `${winner.sellerName} ha ganado ${scoreStore.getFullScore()} puntos!`,
+    title: `¡Has votado!`,
+    message: `<div class="d-flex flex-column">
+      Has ayudado a ${winner.sellerName} a generar una factura con los puntos de todos los jugadores en esta partida.
+      <span class="mt-2 text-success"> Puntos totales: ${scoreStore.getFullScore()} </span>
+    </div>`,
     okButton: 'Continuar',
     type: DIALOG_TYPES.success,
     hasCloseButton: false,
@@ -92,8 +99,44 @@ const gameOver = () => {
   })
 }
 
-const claimPrize = () => {
-  console.log('claim prize')
+const claimPrize = async (winner: Score): Promise<Prize | null> => {
+  try {
+    const today = new Date()
+    const currentMonth: number = today.getMonth() + 1
+    const formattedMonth: string = currentMonth < 9 ? `0${currentMonth}` : currentMonth.toString()
+
+    const formattedDate = `${today.getFullYear()}-${formattedMonth}-${today.getDate()}`
+
+    const invoice: Invoice = {
+      paymentMethod: PaymentMethod['credit-card'],
+      items: [{ id: 1, price: 10, quantity: scoreStore.getFullScore() }],
+      client: 1, //público en general
+      date: formattedDate,
+      dueDate: formattedDate,
+      seller: { id: winner.sellerId }
+    }
+    const response = await invoiceService.create(invoice)
+    const data = response ? response.id : {}
+    let prize: Prize | null = null
+
+    if (data.id) {
+      prize = {
+        id: data?.id || '',
+        date: data?.date || '',
+        status: data?.status || '',
+        total: data?.number || 0,
+        items:
+          data?.items?.map(({ id, name, price, quantity }: PrizeItem) => {
+            return { id, name, price, quantity }
+          }) || []
+      }
+    }
+
+    return prize
+  } catch (error) {
+    console.error(error)
+    return null
+  }
 }
 
 watch(dialogConfiguration, (nextDialogConfiguration) => {
@@ -106,10 +149,10 @@ watch(dialogConfiguration, (nextDialogConfiguration) => {
   }
 })
 
-watch(hasWinner, (newWinner) => {
-  if (newWinner) {
-    claimPrize()
-    gameOver()
+watch(winner, async (newWinner) => {
+  if (newWinner?.sellerId) {
+    gameOver(newWinner)
+    await claimPrize(newWinner)
   }
 })
 
@@ -145,7 +188,7 @@ watch(score, () => {
     <ImagesList class="mt-6" :items="images" />
 
     <v-row justify="center" class="mt-4" no-gutters v-if="noSearchResults">
-      <v-col cols="12"><NoImages /></v-col>
+      <NoImages />
     </v-row>
   </div>
 </template>

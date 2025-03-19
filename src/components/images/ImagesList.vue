@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
 import ImageCard from '@/components/images/ImageCard.vue'
-import type Image from '@/interfaces/Image'
+import type Image from '@/interfaces/services/Image'
 
 defineProps({
   items: {

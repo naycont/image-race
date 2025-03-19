@@ -11,7 +11,11 @@ import Dialog from '@/components/global/Dialog.vue'
     <v-main>
       <v-container fluid class="h-100 main-container">
         <RouterView />
-        <Dialog />
+        <Dialog>
+          <template #content="contentProps">
+            <div v-html="contentProps.content"></div>
+          </template>
+        </Dialog>
       </v-container>
     </v-main>
     <TheFooter />

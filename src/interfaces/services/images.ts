@@ -9,6 +9,11 @@ interface ImageSrc {
   tiny: string
 }
 
+export interface QueryParams {
+  query: string
+  per_page: number
+}
+
 interface Photo {
   id: number
   width: number
@@ -21,10 +26,6 @@ interface Photo {
   src: ImageSrc
   liked: boolean
   alt: string
-}
-export interface QueryParams {
-  query: string
-  per_page: number
 }
 
 export interface ImagesResponse {
