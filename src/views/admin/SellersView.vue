@@ -3,15 +3,19 @@ import SellersList from '@/components/sellers/SellersList.vue'
 import EditSeller from '@/components/sellers/EditSeller.vue'
 import ActionButton from '@/components/global/ActionButton.vue'
 import type Seller from '@/interfaces/services/Seller'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import sellerService from '@/services/seller'
-import { CRUD_ACTIONS, STATUS } from '@/utils/constants'
+import { CRUD_ACTIONS, STATUS, DIALOG_TYPES } from '@/utils/constants'
+import { useDialogStore } from '@/stores/dialog'
 
 const sellers = ref<Seller[]>([])
 const isEditionActive = ref<boolean>(false)
 const currentSeller = ref<Seller | null>(null)
 const editSellerKey = ref<number>(new Date().getTime())
 const isLoading = ref(false)
+
+const dialogStore = useDialogStore()
+const dialogConfiguration = computed(() => dialogStore.dialog)
 
 const getSellersList = async () => {
   try {
@@ -41,25 +45,61 @@ const onSellerSaved = async () => {
   sellers.value = await getSellersList()
 }
 
-const onSelectedAction = async (params: { action: string; seller: Seller }) => {
-  const { action, seller } = params
+const deleteSeller = async (seller: Seller) => {
   try {
     isLoading.value = true
-    if (action === CRUD_ACTIONS.delete) {
-      await sellerService.delete(seller.id)
-    }
-
-    if (action === CRUD_ACTIONS.toggleStatus) {
-      const newStatus = seller.status === STATUS.active ? STATUS.inactive : STATUS.active
-      await sellerService.put(seller.id, { ...seller, status: newStatus })
-    }
-    onSellerSaved()
+    await sellerService.delete(seller.id)
   } catch (error) {
     console.error(error)
   } finally {
     isLoading.value = false
   }
 }
+
+const onSelectedAction = async (params: { action: string; seller: Seller }) => {
+  const { action, seller } = params
+  try {
+    isLoading.value = true
+    if (action === CRUD_ACTIONS.delete) {
+      confirmDelete(seller)
+    }
+
+    if (action === CRUD_ACTIONS.toggleStatus) {
+      const newStatus = seller.status === STATUS.active ? STATUS.inactive : STATUS.active
+      await sellerService.put(seller.id, { ...seller, status: newStatus })
+      onSellerSaved()
+    }
+  } catch (error) {
+    console.error(error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const confirmDelete = (seller: Seller) => {
+  dialogStore.activeDialog({
+    ...dialogConfiguration.value,
+    title: 'Confirmación',
+    message: `<div class="d-flex ">
+      ¿Deseas eliminar este vendedor? Esta acción no se puede deshacer.
+    </div>`,
+    okButton: 'Acpetar',
+    type: DIALOG_TYPES.confirm,
+    params: JSON.stringify({
+      deleteSeller: true,
+      seller
+    })
+  })
+}
+
+watch(dialogConfiguration, async (nextDialogConfiguration) => {
+  const data = nextDialogConfiguration?.data ? JSON.parse(nextDialogConfiguration.data) : {}
+  if (data.deleteSeller) {
+    await deleteSeller(data.seller)
+    dialogStore.closeDialog()
+    await onSellerSaved()
+  }
+})
 
 onMounted(async () => {
   sellers.value = await getSellersList()

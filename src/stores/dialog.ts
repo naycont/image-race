@@ -12,7 +12,8 @@ export const useDialogStore = defineStore('dialog', () => {
     type: '',
     hasCloseButton: true,
     data: '',
-    params: ''
+    params: '',
+    isLoading: false
   }
 
   const dialog = ref<Dialog>(defaultDialogConfiguration)
@@ -32,7 +33,8 @@ export const useDialogStore = defineStore('dialog', () => {
       type: dialog.type ? dialog.type : defaultDialogConfiguration.type,
       hasCloseButton: dialog.hasCloseButton,
       data: dialog.data,
-      params: dialog.params
+      params: dialog.params,
+      isLoading: dialog.isLoading
     })
   }
 
@@ -43,6 +45,7 @@ export const useDialogStore = defineStore('dialog', () => {
   const confirmDialog = () => {
     setDialog({
       ...dialog.value,
+      isLoading: true,
       data: dialog.value.params
     })
   }

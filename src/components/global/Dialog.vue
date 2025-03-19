@@ -47,12 +47,14 @@ const dialogConfiguration = computed(() => dialogStore.dialog)
             color="grey-darken-1"
             :text="dialogConfiguration.closeButton"
             @click="dialogStore.closeDialog()"
+            :disabled="dialogConfiguration.isLoading"
             v-if="dialogConfiguration.hasCloseButton"
           ></ActionButton>
 
           <ActionButton
             @click="dialogStore.confirmDialog()"
             :text="dialogConfiguration.okButton"
+            :loading="dialogConfiguration.isLoading"
           ></ActionButton>
         </v-card-actions>
       </v-card>

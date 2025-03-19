@@ -8,4 +8,5 @@ export default interface Dialog {
   hasCloseButton: boolean
   data?: string
   params?: string
+  isLoading?: boolean
 }
