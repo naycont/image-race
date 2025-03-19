@@ -2,6 +2,7 @@
 import { useDialogStore } from '@/stores/dialog'
 import { computed } from 'vue'
 import ActionButton from './ActionButton.vue'
+import { DIALOG_TYPES } from '@/utils/constants'
 
 const dialogStore = useDialogStore()
 
@@ -16,12 +17,24 @@ const dialogConfiguration = computed(() => dialogStore.dialog)
     <template v-slot:default>
       <v-card>
         <template v-slot:prepend>
-          <v-icon color="warning" icon="warning"></v-icon>
+          <v-icon
+            color="warning"
+            icon="warning"
+            v-if="dialogConfiguration.type === DIALOG_TYPES.confirm"
+          ></v-icon>
+
+          <v-icon
+            color="success"
+            icon="check"
+            v-if="dialogConfiguration.type === DIALOG_TYPES.success"
+          ></v-icon>
         </template>
 
         <template v-slot:title>
           {{ dialogConfiguration.title }}
         </template>
+
+        <v-divider></v-divider>
 
         <v-card-text>
           {{ dialogConfiguration.message }}
@@ -32,9 +45,13 @@ const dialogConfiguration = computed(() => dialogStore.dialog)
             color="grey-darken-1"
             :text="dialogConfiguration.closeButton"
             @click="dialogStore.closeDialog()"
+            v-if="dialogConfiguration.hasCloseButton"
           ></ActionButton>
 
-          <ActionButton @click="dialogStore.confirmDialog()" text="Confimar"></ActionButton>
+          <ActionButton
+            @click="dialogStore.confirmDialog()"
+            :text="dialogConfiguration.okButton"
+          ></ActionButton>
         </v-card-actions>
       </v-card>
     </template>

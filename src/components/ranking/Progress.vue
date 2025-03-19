@@ -1,5 +1,10 @@
 <script lang="ts" setup>
 import { defineProps, computed } from 'vue'
+import { useScoreStore } from '@/stores/score'
+import { TOTAL_POINTS } from '@/utils/constants'
+
+const scoreStore = useScoreStore()
+
 const props = defineProps({
   competitorName: {
     type: String,
@@ -11,7 +16,7 @@ const props = defineProps({
   },
   goal: {
     type: Number,
-    default: 20
+    default: TOTAL_POINTS
   },
   color: {
     type: String,
@@ -20,11 +25,11 @@ const props = defineProps({
 })
 
 const currentPercent = computed(() => {
-  return (props.score * 100) / props.goal
+  return (props.score * 100) / scoreStore.totalPoints
 })
 
 const pointsLeft = computed(() => {
-  const diff = props.goal - props.score
+  const diff = scoreStore.totalPoints - props.score
   const result = diff < 0 ? 0 : diff
   return result
 })

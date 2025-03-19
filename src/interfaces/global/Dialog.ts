@@ -3,5 +3,8 @@ export default interface Dialog {
   title: string
   message: string
   closeButton: string
+  okButton: string
   confirmed: boolean
+  type: string
+  hasCloseButton: boolean
 }

@@ -8,8 +8,7 @@ import { ref, watch, computed } from 'vue'
 import imageList from '@/services/mockData/imagesList.json'
 import { useDialogStore } from '@/stores/dialog'
 import { useScoreStore } from '@/stores/score'
-import sellerService from '@/services/seller'
-import type Seller from '@/interfaces/services/Seller'
+import { DIALOG_TYPES } from '@/utils/constants'
 
 const dialogStore = useDialogStore()
 const scoreStore = useScoreStore()
@@ -17,6 +16,8 @@ const scoreStore = useScoreStore()
 const images = ref<Image[]>([])
 
 const dialogConfiguration = computed(() => dialogStore.dialog)
+const score = computed(() => scoreStore.score)
+const hasWinner = computed(() => scoreStore.hasWinner)
 
 const onSearchImage = async (searchString: string) => {
   try {
@@ -37,8 +38,6 @@ const onSearchImage = async (searchString: string) => {
         }
       })
     }
-
-    console.log(response)
   } catch (error) {
     console.error(error)
   }
@@ -50,16 +49,36 @@ const onRestart = () => {
   dialogStore.activeDialog({
     ...dialog,
     title: 'Confirmación',
-    message: '¿Está seguro de que desea reiniciar los puntos?, al confirmar perderá tu progreso'
+    message: '¿Está seguro de que desea reiniciar los puntos?, al confirmar perderá tu progreso',
+    type: DIALOG_TYPES.confirm
   })
 }
 
-const score = computed(() => scoreStore.score)
+const gameOver = () => {
+  images.value = []
+  const dialog = dialogStore.dialog
+  const winner = score.value[0]
+
+  dialogStore.activeDialog({
+    ...dialog,
+    title: 'Ganador!',
+    message: `${winner.sellerName} ha ganado ${scoreStore.getFullScore()} puntos!`,
+    okButton: 'Continuar',
+    type: DIALOG_TYPES.success,
+    hasCloseButton: false
+  })
+}
 
 watch(dialogConfiguration, (nextDialogConfiguration) => {
   if (nextDialogConfiguration.confirmed) {
     images.value = []
     scoreStore.initScore()
+  }
+})
+
+watch(hasWinner, (newWinner) => {
+  if (newWinner) {
+    gameOver()
   }
 })
 </script>
