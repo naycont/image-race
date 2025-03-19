@@ -1,10 +1,7 @@
 <script lang="ts" setup>
 import type Seller from '@/interfaces/services/Seller'
 import { STATUS } from '@/utils/constants'
-import type { PropType } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
+import { type PropType } from 'vue'
 
 defineProps({
   items: {
@@ -16,10 +13,6 @@ defineProps({
 const getStatusColor = (status: string) => {
   const color = status === STATUS.active ? 'primary' : 'secondary'
   return color
-}
-
-const goToDetails = (sellerId: string) => {
-  //router.push({ name: 'seller', params: { id: sellerId } })
 }
 </script>
 <template>
@@ -46,7 +39,14 @@ const goToDetails = (sellerId: string) => {
           <td>{{ seller.observations }}</td>
 
           <td class="text-center">
-            <v-btn flat variant="outlined" size="x-small" icon="edit" color="primary"></v-btn>
+            <v-btn
+              flat
+              variant="outlined"
+              size="x-small"
+              icon="edit"
+              color="primary"
+              @click="$emit('openDialog', seller)"
+            ></v-btn>
           </td>
         </tr>
       </tbody>

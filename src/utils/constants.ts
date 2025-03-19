@@ -20,3 +20,8 @@ export const DIALOG_TYPES = {
   confirm: 'confirm',
   success: 'success'
 }
+
+export const CRUD_ACTIONS = {
+  add: 'add',
+  edit: 'edit'
+}
