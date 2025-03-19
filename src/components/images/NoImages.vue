@@ -6,6 +6,8 @@
       </v-avatar>
     </template>
 
-    <v-banner-text>Al parecer no se han encontrado resultados para tu búsqueda</v-banner-text>
+    <v-banner-text>
+      Al parecer no se han encontrado resultados para tu búsqueda, intenta una nueva búsqueda
+    </v-banner-text>
   </v-banner>
 </template>

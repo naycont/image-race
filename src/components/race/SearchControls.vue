@@ -2,7 +2,7 @@
 import { ref, defineEmits, defineProps } from 'vue'
 import ActionButton from '@/components/global/ActionButton.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
-import { searchValidationRules } from '@/utils/searchControls'
+import { searchValidationRules } from '@/utils/searchValidationRules'
 
 defineProps({
   restartBtnDisabled: {
