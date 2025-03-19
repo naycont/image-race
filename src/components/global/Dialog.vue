@@ -14,6 +14,7 @@ const dialogConfiguration = computed(() => dialogStore.dialog)
     :model-value="dialogConfiguration.isActive"
     content-class="global-dialog"
     persistent
+    transition="dialog-top-transition"
   >
     <template v-slot:default>
       <v-card>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import SearchControls from '@/components/race/SearchControls.vue'
-import Ranking from '@/components/race/Ranking.vue'
+import Ranking from '@/components/ranking/Ranking.vue'
 import ImagesList from '@/components/images/ImagesList.vue'
 import NoImages from '@/components/images/NoImages.vue'
 import imageService from '@/services/image'
@@ -39,12 +39,12 @@ const onSearchImage = async (searchString: string) => {
     isSearchResult.value = true
     images.value = []
 
-    /*const response = await imageService.search({
+    const response = await imageService.search({
       query: searchString,
       per_page: scoreItems.length
-    })*/
+    })
 
-    const response = imageList.slice(0, scoreItems.length)
+    // const response = imageList.slice(0, scoreItems.length)
     if (response?.length) {
       images.value = response.map((image, index) => {
         const seller = scoreItems[index]
@@ -181,7 +181,7 @@ watch(score, () => {
 
     <v-row justify="center" class="mt-4" no-gutters>
       <v-col cols="12" sm="12" md="12" lg="10">
-        <Ranking />
+        <Ranking preview />
       </v-col>
     </v-row>
 

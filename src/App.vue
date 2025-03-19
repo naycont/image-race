@@ -8,6 +8,7 @@ import Dialog from '@/components/global/Dialog.vue'
 <template>
   <v-app>
     <TheHeading />
+
     <v-main>
       <v-container fluid class="h-100 main-container">
         <RouterView />

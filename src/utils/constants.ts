@@ -12,6 +12,8 @@ export enum InvoiceStatus {
 
 export const RANKING_COLORS: string[] = ['#FFD700', '#C0C0C0', '#CD7F32'] // GOLD, SILVER, BRONZE
 
+export const TOP_RANKING = 3
+
 export const TOTAL_POINTS = 20
 
 export const DIALOG_TYPES = {

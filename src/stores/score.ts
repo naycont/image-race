@@ -9,20 +9,28 @@ export const useScoreStore = defineStore('score', () => {
   const score = ref<Score[]>([])
   const winner = ref<Score | null>(null)
   const points = 3
-  const totalPoints = 3 //TOTAL_POINTS
+  const totalPoints = TOTAL_POINTS
+  const isLoading = ref(false)
 
   const initScore = async () => {
-    const data: Seller[] = await sellerService.get()
-    const activeSellers = data.filter((seller) => seller.status === STATUS.active)
-    winner.value = null
+    try {
+      isLoading.value = true
+      const data: Seller[] = await sellerService.get()
+      const activeSellers = data.filter((seller) => seller.status === STATUS.active)
+      winner.value = null
 
-    score.value = activeSellers.map((seller: Seller) => {
-      return {
-        sellerId: seller.id,
-        sellerName: seller.name,
-        score: 0
-      }
-    })
+      score.value = activeSellers.map((seller: Seller) => {
+        return {
+          sellerId: seller.id,
+          sellerName: seller.name,
+          score: 0
+        }
+      })
+    } catch (error) {
+      console.error(error)
+    } finally {
+      isLoading.value = false
+    }
   }
 
   const setScore = (sellerId: string) => {
@@ -57,5 +65,5 @@ export const useScoreStore = defineStore('score', () => {
     }
   })
 
-  return { score, initScore, setScore, totalPoints, getFullScore, winner }
+  return { score, initScore, setScore, totalPoints, getFullScore, winner, isLoading }
 })
