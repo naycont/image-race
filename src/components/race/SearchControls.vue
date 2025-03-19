@@ -1,11 +1,23 @@
 <script lang="ts" setup>
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, defineProps } from 'vue'
 import ActionButton from '@/components/global/ActionButton.vue'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+import { searchValidationRules } from '@/utils/searchControls'
+
+defineProps({
+  restartBtnDisabled: {
+    type: Boolean,
+    default: false
+  },
+  isLoading: {
+    type: Boolean,
+    default: false
+  }
+})
 
 const searchString = ref<string>('')
 
-const emit = defineEmits(['searchImage', 'restart'])
+const emit = defineEmits(['searchImage', 'restart', 'clearSearch'])
 
 // responsiveness added: get breakpoints to disply action button on the right
 const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -13,6 +25,8 @@ const isSmallerDevice = breakpoints.smaller('md')
 
 const onSearchImage = (event: SubmitEvent) => {
   event.preventDefault()
+  if (!searchString.value.trim()) return
+
   emit('searchImage', searchString.value)
 }
 </script>
@@ -25,8 +39,12 @@ const onSearchImage = (event: SubmitEvent) => {
         variant="outlined"
         label="Buscar Imagen"
         bg-color="#fff"
-        hide-details
         rounded
+        prepend-inner-icon="search"
+        clearable
+        @click:clear="emit('clearSearch')"
+        :rules="searchValidationRules.required"
+        hide-details
       ></v-text-field>
 
       <div
@@ -37,9 +55,17 @@ const onSearchImage = (event: SubmitEvent) => {
           color="primary"
           density="default"
           icon="replay"
+          :disabled="restartBtnDisabled"
           @click="emit('restart')"
         ></v-btn>
-        <ActionButton type="submit" @click="onSearchImage" text="Buscar"></ActionButton>
+
+        <ActionButton
+          type="submit"
+          @click="onSearchImage"
+          text="Buscar"
+          :disabled="isLoading"
+          :loading="isLoading"
+        ></ActionButton>
       </div>
     </div>
   </v-form>

@@ -2,6 +2,7 @@
 import SearchControls from '@/components/race/SearchControls.vue'
 import Ranking from '@/components/race/Ranking.vue'
 import ImagesList from '@/components/images/ImagesList.vue'
+import NoImages from '@/components/images/NoImages.vue'
 import imageService from '@/services/image'
 import type Image from '@/interfaces/Image'
 import { ref, watch, computed } from 'vue'
@@ -15,20 +16,30 @@ const scoreStore = useScoreStore()
 
 const images = ref<Image[]>([])
 const searchControlsKey = ref<number>(new Date().getTime())
+const isLoading = ref<boolean>(false)
+const isSearchResult = ref<boolean>(false)
 
 const dialogConfiguration = computed(() => dialogStore.dialog)
 const score = computed(() => scoreStore.score)
 const hasWinner = computed(() => scoreStore.hasWinner)
+const restartBtnDisabled = computed(() => scoreStore.getFullScore() === 0)
+const noSearchResults = computed(() =>
+  Boolean(isSearchResult.value && images.value.length === 0 && !isLoading.value)
+)
 
 const onSearchImage = async (searchString: string) => {
   try {
     const scoreItems = score.value
+    isLoading.value = true
+    isSearchResult.value = true
+    images.value = []
 
-    /*const response = await imageService.search({
+    const response = await imageService.search({
       query: searchString,
       per_page: scoreItems.length
-    }) */
-    const response = imageList.slice(0, scoreItems.length)
+    })
+
+    // const response = imageList.slice(0, scoreItems.length)
     if (response?.length) {
       images.value = response.map((image, index) => {
         const seller = scoreItems[index]
@@ -41,6 +52,8 @@ const onSearchImage = async (searchString: string) => {
     }
   } catch (error) {
     console.error(error)
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -54,6 +67,11 @@ const onRestart = () => {
       confirmed: true
     })
   })
+}
+
+const onClearSearch = () => {
+  images.value = []
+  isSearchResult.value = false
 }
 
 const gameOver = () => {
@@ -103,7 +121,10 @@ watch(score, () => {
       <v-col cols="12" sm="12" md="12" lg="10">
         <SearchControls
           :key="searchControlsKey"
+          :restartBtnDisabled="restartBtnDisabled"
+          :isLoading="isLoading"
           @searchImage="onSearchImage"
+          @clearSearch="onClearSearch"
           @restart="onRestart"
         />
       </v-col>
@@ -116,5 +137,9 @@ watch(score, () => {
     </v-row>
 
     <ImagesList class="mt-6" :items="images" />
+
+    <v-row justify="center" class="mt-4" no-gutters v-if="noSearchResults">
+      <v-col cols="12"><NoImages /></v-col>
+    </v-row>
   </div>
 </template>
