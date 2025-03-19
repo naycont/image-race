@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type Seller from '@/interfaces/services/Seller'
-import { STATUS } from '@/utils/constants'
+import { CRUD_ACTIONS, STATUS } from '@/utils/constants'
 import { type PropType } from 'vue'
 
 defineProps({
@@ -9,6 +9,11 @@ defineProps({
     default: () => []
   }
 })
+
+const actions = [
+  { title: 'Eliminar', action: CRUD_ACTIONS.delete, icon: 'delete', color: 'error' },
+  { title: 'Desactivar', action: CRUD_ACTIONS.toggleStatus, icon: 'unpublished', color: 'primary' }
+]
 
 const getStatusColor = (status: string) => {
   const color = status === STATUS.active ? 'primary' : 'secondary'
@@ -47,6 +52,27 @@ const getStatusColor = (status: string) => {
               color="primary"
               @click="$emit('openDialog', seller)"
             ></v-btn>
+            <v-menu>
+              <template v-slot:activator="{ props }">
+                <v-btn icon="more_vert" variant="text" v-bind="props" size="x-small"></v-btn>
+              </template>
+
+              <v-list class="py-1" density="compact" slim>
+                <v-list-item
+                  v-for="(action, index) in actions"
+                  :key="index"
+                  :value="index"
+                  @click="$emit('selectedAction', { action: action.action, seller: seller })"
+                >
+                  <template v-slot:prepend>
+                    <v-icon :icon="action.icon" :color="action.color"></v-icon>
+                  </template>
+                  <v-list-item-title>
+                    {{ action.title }}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </td>
         </tr>
       </tbody>

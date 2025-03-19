@@ -23,5 +23,7 @@ export const DIALOG_TYPES = {
 
 export const CRUD_ACTIONS = {
   add: 'add',
-  edit: 'edit'
+  edit: 'edit',
+  delete: 'delete',
+  toggleStatus: 'toggleStatus'
 }

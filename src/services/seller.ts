@@ -33,6 +33,15 @@ const seller = {
       console.log('error')
       return null
     }
+  },
+  delete: async (sellerId: string) => {
+    try {
+      const response = await http.delete(`${PATH}/${sellerId}`)
+      return response
+    } catch {
+      console.log('error')
+      return null
+    }
   }
 }
 
