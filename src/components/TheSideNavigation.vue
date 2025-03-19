@@ -5,9 +5,10 @@ import { computed } from 'vue'
 import router from '@/router'
 
 const route = useRoute()
+const sideNavigationStore = useSideNavigationStore()
+
 const routeName = computed(() => route.name)
 
-const sideNavigationStore = useSideNavigationStore()
 const opened = computed(() => {
   return sideNavigationStore.opened
 })

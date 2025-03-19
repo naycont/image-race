@@ -1,6 +1,6 @@
 export enum STATUS {
   active = 'active',
-  inaactive = 'inactive'
+  inactive = 'inactive'
 }
 
 export enum InvoiceStatus {
