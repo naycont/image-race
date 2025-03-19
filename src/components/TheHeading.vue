@@ -14,18 +14,21 @@ const dialogConfiguration = computed(() => dialogStore.dialog)
 const currenRoute = computed(() => router.currentRoute.value.name)
 
 const confirmExit = () => {
-  const dialog = dialogStore.dialog
-
   dialogStore.activeDialog({
-    ...dialog,
+    ...dialogConfiguration.value,
     title: 'Confirmación',
     message: '¿Estás seguro de que deseas abandonar?, al confirmar perderás tu progreso',
-    type: DIALOG_TYPES.confirm
+    type: DIALOG_TYPES.confirm,
+    params: JSON.stringify({
+      exit: true
+    })
   })
 }
 
 watch(dialogConfiguration, (nextDialogConfiguration) => {
-  if (nextDialogConfiguration.confirmed) {
+  const data = nextDialogConfiguration?.data ? JSON.parse(nextDialogConfiguration.data) : {}
+  if (data.exit) {
+    dialogStore.closeDialog()
     scoreStore.initScore()
     router.push({ name: 'home' })
   }

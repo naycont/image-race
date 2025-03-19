@@ -14,6 +14,7 @@ const dialogStore = useDialogStore()
 const scoreStore = useScoreStore()
 
 const images = ref<Image[]>([])
+const searchControlsKey = ref<number>(new Date().getTime())
 
 const dialogConfiguration = computed(() => dialogStore.dialog)
 const score = computed(() => scoreStore.score)
@@ -44,23 +45,23 @@ const onSearchImage = async (searchString: string) => {
 }
 
 const onRestart = () => {
-  const dialog = dialogStore.dialog
-
   dialogStore.activeDialog({
-    ...dialog,
+    ...dialogConfiguration.value,
     title: 'Confirmación',
     message: '¿Está seguro de que desea reiniciar los puntos?, al confirmar perderá tu progreso',
-    type: DIALOG_TYPES.confirm
+    type: DIALOG_TYPES.confirm,
+    params: JSON.stringify({
+      confirmed: true
+    })
   })
 }
 
 const gameOver = () => {
   images.value = []
-  const dialog = dialogStore.dialog
   const winner = score.value[0]
 
   dialogStore.activeDialog({
-    ...dialog,
+    ...dialogConfiguration.value,
     title: 'Ganador!',
     message: `${winner.sellerName} ha ganado ${scoreStore.getFullScore()} puntos!`,
     okButton: 'Continuar',
@@ -70,7 +71,10 @@ const gameOver = () => {
 }
 
 watch(dialogConfiguration, (nextDialogConfiguration) => {
-  if (nextDialogConfiguration.confirmed) {
+  const data = nextDialogConfiguration?.data ? JSON.parse(nextDialogConfiguration.data) : {}
+  if (data.confirmed) {
+    dialogStore.closeDialog()
+    searchControlsKey.value = new Date().getTime()
     images.value = []
     scoreStore.initScore()
   }
@@ -86,7 +90,11 @@ watch(hasWinner, (newWinner) => {
   <div class="view-layout">
     <v-row justify="center" no-gutters>
       <v-col cols="12" sm="12" md="12" lg="10">
-        <SearchControls @searchImage="onSearchImage" @restart="onRestart" />
+        <SearchControls
+          :key="searchControlsKey"
+          @searchImage="onSearchImage"
+          @restart="onRestart"
+        />
       </v-col>
     </v-row>
 

@@ -9,9 +9,10 @@ export const useDialogStore = defineStore('dialog', () => {
     message: '',
     closeButton: 'Cancelar',
     okButton: 'Confirmar',
-    confirmed: false,
     type: '',
-    hasCloseButton: true
+    hasCloseButton: true,
+    data: '',
+    params: ''
   }
 
   const dialog = ref<Dialog>(defaultDialogConfiguration)
@@ -29,7 +30,9 @@ export const useDialogStore = defineStore('dialog', () => {
       closeButton: dialog.closeButton,
       okButton: dialog.okButton,
       type: dialog.type ? dialog.type : defaultDialogConfiguration.type,
-      hasCloseButton: dialog.hasCloseButton
+      hasCloseButton: dialog.hasCloseButton,
+      data: dialog.data,
+      params: dialog.params
     })
   }
 
@@ -39,8 +42,8 @@ export const useDialogStore = defineStore('dialog', () => {
 
   const confirmDialog = () => {
     setDialog({
-      ...defaultDialogConfiguration,
-      confirmed: true
+      ...dialog.value,
+      data: dialog.value.params
     })
   }
 

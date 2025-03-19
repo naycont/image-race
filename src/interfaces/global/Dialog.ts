@@ -4,7 +4,8 @@ export default interface Dialog {
   message: string
   closeButton: string
   okButton: string
-  confirmed: boolean
   type: string
   hasCloseButton: boolean
+  data?: string
+  params?: string
 }

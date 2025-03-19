@@ -37,7 +37,7 @@ const redirectToSearchView = () => {
           <v-avatar color="primary" variant="outlined" class="mr-2">
             <span class="text-h5">3</span>
           </v-avatar>
-          Continua buscando imágenes y el ganador será el que alcance 20 puntos
+          Continua buscando imágenes y el ganador será el primero que alcance 20 puntos
         </span>
       </div>
     </div>
