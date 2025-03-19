@@ -58,6 +58,7 @@ const onRestart = () => {
 
 const gameOver = () => {
   images.value = []
+  searchControlsKey.value = new Date().getTime()
   const winner = score.value[0]
 
   dialogStore.activeDialog({
@@ -66,7 +67,10 @@ const gameOver = () => {
     message: `${winner.sellerName} ha ganado ${scoreStore.getFullScore()} puntos!`,
     okButton: 'Continuar',
     type: DIALOG_TYPES.success,
-    hasCloseButton: false
+    hasCloseButton: false,
+    params: JSON.stringify({
+      confirmed: true
+    })
   })
 }
 
@@ -83,6 +87,13 @@ watch(dialogConfiguration, (nextDialogConfiguration) => {
 watch(hasWinner, (newWinner) => {
   if (newWinner) {
     gameOver()
+  }
+})
+
+watch(score, () => {
+  if (images.value.length) {
+    images.value = []
+    searchControlsKey.value = new Date().getTime()
   }
 })
 </script>
