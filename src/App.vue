@@ -2,13 +2,14 @@
 import { RouterView } from 'vue-router'
 import TheHeading from '@/components/TheHeading.vue'
 import TheFooter from '@/components/TheFooter.vue'
+import TheSideNavigation from '@/components/TheSideNavigation.vue'
 import Dialog from '@/components/global/Dialog.vue'
 </script>
 
 <template>
   <v-app>
     <TheHeading />
-
+    <TheSideNavigation />
     <v-main>
       <v-container fluid class="h-100 main-container">
         <RouterView />

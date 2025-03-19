@@ -8,7 +8,7 @@ const invoiceService = {
     try {
       const response = await http.post(PATH, data)
       const responseData = response.data ? response.data : {}
-      console.log(responseData)
+
       return responseData
     } catch {
       console.log('error')
