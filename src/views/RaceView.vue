@@ -34,12 +34,12 @@ const onSearchImage = async (searchString: string) => {
     isSearchResult.value = true
     images.value = []
 
-    const response = await imageService.search({
+    /*const response = await imageService.search({
       query: searchString,
       per_page: scoreItems.length
-    })
+    })*/
 
-    // const response = imageList.slice(0, scoreItems.length)
+    const response = imageList.slice(0, scoreItems.length)
     if (response?.length) {
       images.value = response.map((image, index) => {
         const seller = scoreItems[index]
@@ -87,14 +87,18 @@ const gameOver = () => {
     type: DIALOG_TYPES.success,
     hasCloseButton: false,
     params: JSON.stringify({
-      confirmed: true
+      finished: true
     })
   })
 }
 
+const claimPrize = () => {
+  console.log('claim prize')
+}
+
 watch(dialogConfiguration, (nextDialogConfiguration) => {
   const data = nextDialogConfiguration?.data ? JSON.parse(nextDialogConfiguration.data) : {}
-  if (data.confirmed) {
+  if (data.finished) {
     dialogStore.closeDialog()
     searchControlsKey.value = new Date().getTime()
     images.value = []
@@ -104,6 +108,7 @@ watch(dialogConfiguration, (nextDialogConfiguration) => {
 
 watch(hasWinner, (newWinner) => {
   if (newWinner) {
+    claimPrize()
     gameOver()
   }
 })
@@ -111,6 +116,7 @@ watch(hasWinner, (newWinner) => {
 watch(score, () => {
   if (images.value.length) {
     images.value = []
+    isSearchResult.value = false
     searchControlsKey.value = new Date().getTime()
   }
 })

@@ -9,7 +9,7 @@ export const useScoreStore = defineStore('score', () => {
   const score = ref<Score[]>([])
   const hasWinner = ref<boolean>(false)
   const points = 3
-  const totalPoints = TOTAL_POINTS
+  const totalPoints = 3 //TOTAL_POINTS
 
   const initScore = async () => {
     const data: Seller[] = await sellerService.get()

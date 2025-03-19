@@ -13,6 +13,7 @@ const dialogConfiguration = computed(() => dialogStore.dialog)
     max-width="500"
     :model-value="dialogConfiguration.isActive"
     content-class="global-dialog"
+    persistent
   >
     <template v-slot:default>
       <v-card>
