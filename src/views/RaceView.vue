@@ -92,8 +92,9 @@ const gameOver = async (winner: Score) => {
     okButton: 'Continuar',
     type: DIALOG_TYPES.success,
     hasCloseButton: false,
+    isLoading: false,
     params: JSON.stringify({
-      finished: true
+      confirmed: true
     })
   })
 }
@@ -145,6 +146,7 @@ watch(dialogConfiguration, (nextDialogConfiguration) => {
     searchControlsKey.value = new Date().getTime()
     images.value = []
     scoreStore.initScore()
+    isSearchResult.value = false
   }
 })
 

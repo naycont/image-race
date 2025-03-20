@@ -29,6 +29,11 @@ const onSearchImage = (event: SubmitEvent) => {
 
   emit('searchImage', searchString.value)
 }
+
+const clearSearch = () => {
+  searchString.value = ''
+  emit('clearSearch')
+}
 </script>
 
 <template>
@@ -42,7 +47,7 @@ const onSearchImage = (event: SubmitEvent) => {
         rounded
         prepend-inner-icon="search"
         clearable
-        @click:clear="emit('clearSearch')"
+        @click:clear="clearSearch"
         :rules="searchValidationRules.required"
         hide-details
       ></v-text-field>

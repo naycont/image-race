@@ -10,11 +10,15 @@ const redirectToSearchView = () => {
 </script>
 <template>
   <div class="view-layout">
-    <div class="d-flex justify-center align-center banner">
+    <div class="d-flex flex-column justify-center align-center banner">
       <span class="text-center text-h4">
         Ayuda a los vendedores de
-        <span class="text-primary">Alegra</span>
+        <a class="text-primary" href="https://www.alegra.com/" target="_blank">Alegra</a>
         a ganar una carrera.
+      </span>
+
+      <span class="text-center text-h5 mt-4">
+        Los vendedores de alegra están compitiendo por presentarte las mejores imágenes del mundo.
       </span>
     </div>
 
@@ -37,7 +41,7 @@ const redirectToSearchView = () => {
           <v-avatar color="primary" variant="outlined" class="mr-2">
             <span class="text-h5">3</span>
           </v-avatar>
-          Continua buscando imágenes y el ganador será el primero que alcance 20 puntos
+          Continua buscando imágenes y el ganador será el primero que alcance 21 puntos
         </span>
       </div>
     </div>
