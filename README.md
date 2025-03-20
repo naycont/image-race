@@ -53,7 +53,7 @@ npm install
 npm run dev
 ```
 
-5. Run the development server and open http://localhost:5173/ultimate-job-finder/ in your browser.
+5. Run the development server and open http://localhost:5173/image-race in your browser.
 
 ### Run Unit Tests with [Vitest](https://vitest.dev/)
 
