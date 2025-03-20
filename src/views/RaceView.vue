@@ -65,7 +65,7 @@ const onRestart = () => {
   dialogStore.activeDialog({
     ...dialogConfiguration.value,
     title: 'Confirmación',
-    message: '¿Está seguro de que desea reiniciar los puntos?, al confirmar perderá tu progreso',
+    message: '¿Estás seguro de que desea reiniciar la partida?, al confirmar perderás tu progreso',
     type: DIALOG_TYPES.confirm,
     params: JSON.stringify({
       confirmed: true
@@ -140,7 +140,7 @@ const claimPrize = async (winner: Score): Promise<Prize | null> => {
 
 watch(dialogConfiguration, (nextDialogConfiguration) => {
   const data = nextDialogConfiguration?.data ? JSON.parse(nextDialogConfiguration.data) : {}
-  if (data.finished) {
+  if (data.confirmed) {
     dialogStore.closeDialog()
     searchControlsKey.value = new Date().getTime()
     images.value = []

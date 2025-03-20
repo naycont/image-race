@@ -58,6 +58,7 @@ onMounted(async () => {
           density="compact"
           variant="text"
           @click="isPreview = !isPreview"
+          v-if="score.length > TOP_RANKING"
         >
           {{ isPreview ? 'ver mas...' : 'ver menos...' }}
         </v-btn>

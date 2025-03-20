@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { useSideNavigationStore } from '@/stores/sideNavigation'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import router from '@/router'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 const route = useRoute()
 const sideNavigationStore = useSideNavigationStore()
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const isSmallerThanLg = breakpoints.smaller('lg')
 
 const routeName = computed(() => route.name)
 
@@ -15,6 +19,11 @@ const opened = computed(() => {
 
 const navigation = computed(() => {
   return [
+    {
+      name: 'race',
+      title: 'Partida',
+      icon: 'image'
+    },
     {
       name: 'sellers',
       title: 'Vendedores',
@@ -26,6 +35,12 @@ const navigation = computed(() => {
 const navigateTo = (routeName: string) => {
   router.push({ name: routeName })
 }
+
+watch(isSmallerThanLg, (updatedValue) => {
+  if (updatedValue) {
+    sideNavigationStore.close()
+  }
+})
 </script>
 <template>
   <v-navigation-drawer class="navigation" v-model="opened">

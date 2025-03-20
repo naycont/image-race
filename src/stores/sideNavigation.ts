@@ -8,5 +8,9 @@ export const useSideNavigationStore = defineStore('sideNavigation', () => {
     opened.value = !opened.value
   }
 
-  return { opened, toggle }
+  const close = () => {
+    opened.value = false
+  }
+
+  return { opened, toggle, close }
 })
