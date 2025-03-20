@@ -29,7 +29,7 @@ const redirectToSearchView = () => {
       </span>
     </div>
 
-    <div class="d-flex justify-center align-center">
+    <div class="d-flex justify-center align-center mt-4">
       <div class="d-flex flex-column">
         <span>
           <v-avatar color="primary" variant="outlined" class="mr-2">
