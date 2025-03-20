@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type Seller from '@/interfaces/services/Seller'
-import { CRUD_ACTIONS, STATUS } from '@/utils/constants'
+import useStatusColorConfiguration from '@/composables/statusConfiguration'
+import { SELLER_ACTIONS as ACTIONS } from '@/utils/constants'
 import { type PropType } from 'vue'
 
 defineProps({
@@ -9,16 +10,6 @@ defineProps({
     default: () => []
   }
 })
-
-const actions = [
-  { title: 'Eliminar', action: CRUD_ACTIONS.delete, icon: 'delete', color: 'error' },
-  { title: 'Desactivar', action: CRUD_ACTIONS.toggleStatus, icon: 'unpublished', color: 'primary' }
-]
-
-const getStatusColor = (status: string) => {
-  const color = status === STATUS.active ? 'primary' : 'secondary'
-  return color
-}
 </script>
 <template>
   <div class="w-100">
@@ -39,7 +30,7 @@ const getStatusColor = (status: string) => {
         >
           <td :data-testid="`sellerList__items--${seller.id}-title`">{{ seller.name }}</td>
           <td>
-            <v-chip :color="getStatusColor(seller.status)">{{ seller.status }}</v-chip>
+            <v-chip :color="useStatusColorConfiguration(seller.status)">{{ seller.status }}</v-chip>
           </td>
           <td>{{ seller.observations }}</td>
 
@@ -59,7 +50,7 @@ const getStatusColor = (status: string) => {
 
               <v-list class="py-1" density="compact" slim>
                 <v-list-item
-                  v-for="(action, index) in actions"
+                  v-for="(action, index) in ACTIONS"
                   :key="index"
                   :value="index"
                   @click="$emit('selectedAction', { action: action.action, seller: seller })"

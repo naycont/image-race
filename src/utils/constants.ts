@@ -27,3 +27,13 @@ export const CRUD_ACTIONS = {
   delete: 'delete',
   toggleStatus: 'toggleStatus'
 }
+
+export const SELLER_ACTIONS = [
+  { title: 'Eliminar', action: CRUD_ACTIONS.delete, icon: 'delete', color: 'error' },
+  {
+    title: 'Desactivar',
+    action: CRUD_ACTIONS.toggleStatus,
+    icon: 'unpublished',
+    color: 'secondary'
+  }
+]

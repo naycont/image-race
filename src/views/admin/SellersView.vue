@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import SellersList from '@/components/sellers/SellersList.vue'
+import SellersCards from '@/components/sellers/SellersCards.vue'
 import EditSeller from '@/components/sellers/EditSeller.vue'
 import ActionButton from '@/components/global/ActionButton.vue'
 import type Seller from '@/interfaces/services/Seller'
@@ -7,6 +8,7 @@ import { ref, onMounted, computed, watch } from 'vue'
 import sellerService from '@/services/seller'
 import { CRUD_ACTIONS, STATUS, DIALOG_TYPES } from '@/utils/constants'
 import { useDialogStore } from '@/stores/dialog'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 const sellers = ref<Seller[]>([])
 const isEditionActive = ref<boolean>(false)
@@ -16,6 +18,10 @@ const isLoading = ref(false)
 
 const dialogStore = useDialogStore()
 const dialogConfiguration = computed(() => dialogStore.dialog)
+
+// responsiveness added: get breakpoints to switch view cards instead of list
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const isSmallerThanLg = breakpoints.smaller('lg')
 
 const getSellersList = async () => {
   try {
@@ -116,7 +122,7 @@ onMounted(async () => {
       @saved="onSellerSaved"
     />
 
-    <div class="d-flex justify-end">
+    <div class="d-flex justify-end mb-4">
       <ActionButton
         text="Agregar"
         prepend-icon="add"
@@ -125,16 +131,19 @@ onMounted(async () => {
       />
     </div>
 
-    <v-progress-linear
-      class="mt-4"
-      color="secondary"
-      indeterminate
-      v-if="isLoading"
-    ></v-progress-linear>
+    <v-progress-linear color="secondary" indeterminate v-if="isLoading"></v-progress-linear>
+
+    <SellersCards
+      :items="sellers"
+      v-if="isSmallerThanLg"
+      @openDialog="onOpenFormDialog"
+      @selectedAction="onSelectedAction"
+    />
     <SellersList
       :items="sellers"
       @openDialog="onOpenFormDialog"
       @selectedAction="onSelectedAction"
+      v-else
     />
   </div>
 </template>
