@@ -9,11 +9,18 @@ const redirectToSearchView = () => {
 }
 </script>
 <template>
-  <div class="view-layout">
-    <div class="d-flex flex-column justify-center align-center banner">
+  <div class="view-layout" data-testid="home">
+    <div class="d-flex flex-column justify-center align-center banner" data-testid="home__title">
       <span class="text-center text-h4">
         Ayuda a los vendedores de
-        <a class="text-primary" href="https://www.alegra.com/" target="_blank">Alegra</a>
+        <a
+          class="text-primary"
+          href="https://www.alegra.com/"
+          target="_blank"
+          data-testid="home__title--link"
+        >
+          Alegra
+        </a>
         a ganar una carrera.
       </span>
 
@@ -48,7 +55,7 @@ const redirectToSearchView = () => {
 
     <div class="d-flex justify-center align-center flex-column mt-6">
       <span class="my-4 text-accent text-h5">Que comience la carrera!</span>
-      <ActionButton text="Empezar" @click="redirectToSearchView" />
+      <ActionButton text="Empezar" @click="redirectToSearchView" data-testid="home__start-button" />
     </div>
   </div>
 </template>

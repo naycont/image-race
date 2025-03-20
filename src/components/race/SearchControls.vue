@@ -37,7 +37,7 @@ const clearSearch = () => {
 </script>
 
 <template>
-  <v-form>
+  <v-form data-testid="search">
     <div :class="['d-flex', 'ga-4', { 'flex-column': isSmallerDevice }]">
       <v-text-field
         v-model="searchString"
@@ -50,6 +50,7 @@ const clearSearch = () => {
         @click:clear="clearSearch"
         :rules="searchValidationRules.required"
         hide-details
+        data-testid="search__textfield"
       ></v-text-field>
 
       <div
@@ -62,6 +63,7 @@ const clearSearch = () => {
           icon="replay"
           :disabled="restartBtnDisabled"
           @click="emit('restart')"
+          data-testid="search__restart-button"
         ></v-btn>
 
         <ActionButton
@@ -70,6 +72,7 @@ const clearSearch = () => {
           text="Buscar"
           :disabled="isLoading"
           :loading="isLoading"
+          data-testid="search__search-button"
         ></ActionButton>
       </div>
     </div>
