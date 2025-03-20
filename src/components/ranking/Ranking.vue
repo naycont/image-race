@@ -33,6 +33,7 @@ onMounted(async () => {
   scoreStore.initScore()
 })
 </script>
+
 <template>
   <div class="d-flex flex-column">
     <template v-if="isScoreLoading">

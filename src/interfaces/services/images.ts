@@ -1,12 +1,5 @@
-interface ImageSrc {
-  original: string
-  large2x: string
-  large: string
-  medium: string
-  small: string
-  portrait: string
-  landscape: string
-  tiny: string
+export interface ErrorResponse {
+  error: string
 }
 
 export interface QueryParams {
@@ -14,24 +7,33 @@ export interface QueryParams {
   per_page: number
 }
 
-interface Photo {
+export interface Photo {
   id: number
   width: number
   height: number
   url: string
+  alt: string | null
+  avg_color: string | null
   photographer: string
   photographer_url: string
-  photographer_id: number
-  avg_color: string
-  src: ImageSrc
+  photographer_id: number | string
   liked: boolean
-  alt: string
+  src: {
+    original: string
+    large2x: string
+    large: string
+    medium: string
+    small: string
+    portrait: string
+    landscape: string
+    tiny: string
+  }
 }
-
 export interface ImagesResponse {
-  page: number
-  per_page: number
-  photos: Array<Photo>
+  url?: string
+  page: string | number
+  per_page: string | number
+  photos: Photo[]
   total_results: number
-  next_page: string
+  next_page: string | number
 }
