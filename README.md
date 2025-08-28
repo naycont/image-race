@@ -17,6 +17,9 @@ This SPA showcases the Alegra sellers competing to present users with the best i
 - [Pinia](https://pinia.vuejs.org/introduction.html)
 - [Google material design icons](https://fonts.google.com/icons)
 
+3rd party library to access image content
+- https://www.pexels.com/api/documentation/
+
 ## Prerequisites
 
 - Node.js (version 22.14.X)
@@ -56,6 +59,8 @@ npm run dev
 5. Run the development server and open http://localhost:5173/image-race in your browser.
 
 ### Run Unit Tests with [Vitest](https://vitest.dev/)
+ 
+(TBA)
 
 ```sh
 npm run test:unit
@@ -77,7 +82,7 @@ npm run build
 
 ## deployed application
 
-https://d1ew75p5h0n940.cloudfront.net/
+https://naycont.github.io/image-race/
 
 ## Type Support for `.vue` Imports in TS
 
