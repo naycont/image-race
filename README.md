@@ -77,7 +77,7 @@ npm run lint
 1. Use the following commands to build and deploy the project:
 
 ```sh
-npm run build
+npm run deploy
 ```
 
 ## deployed application
@@ -105,5 +105,5 @@ Nayeli Contreras - naycont@gmail.com
 3. Complete unit testing
 4. Improve workflow on the logic when a seller wins the prize(invoice)
 5. Implement zoom on images
-6. Implement404 page
+6. Implement 404 page
 7. Skelenton loaders needed
